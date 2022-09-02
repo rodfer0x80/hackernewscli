@@ -1,2 +1,2 @@
 # hackernewscli
-- hackernews in the cli
+hackernews in the cli
