@@ -1,6 +1,8 @@
 #!/usr/bin/env python3
 
+
 from hackernewscli.bootstrap import runme
+
 
 def main():
     runme()
@@ -8,4 +10,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+    sys.exit(main())
