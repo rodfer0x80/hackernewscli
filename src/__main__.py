@@ -1,7 +1,9 @@
 #!/usr/bin/env python3
 
 
-from hackernewscli.bootstrap import runme
+from hackernewscli.runner import runme
+
+import sys
 
 
 def main():
