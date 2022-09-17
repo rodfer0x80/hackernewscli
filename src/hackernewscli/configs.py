@@ -1,8 +1,15 @@
 import os
 import sys
 
+try:
+    import pyfiglet
+    BANNER = True
+except:
+    BANNER = False
+
+
 HTTP_SUCCESS = 200
-TOP_NEWS = "/tmp/hackernews/hackernews_cli.txt"
+TOP_NEWS = "/tmp/hackernewscli/hackernewscli_cache.txt"
 READS_SIZE = 80
 PAGE_SIZE = 4
 # Web

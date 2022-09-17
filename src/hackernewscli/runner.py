@@ -13,7 +13,7 @@ def runme():
     except:
         sys.stderr.write("[!] Script needs read and write permission to /tmp\n")
         sys.exit(1)
-    os.system("mkdir -p /tmp/hackernews")
+    os.system("mkdir -p /tmp/hackernewscli")
 
 
     handle  = 0

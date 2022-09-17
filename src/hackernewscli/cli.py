@@ -1,6 +1,10 @@
 import sys
 import time
 import subprocess
+try:
+    import pyfiglet
+except:
+    pass
 
 from .configs import *
 from .curl import *
@@ -10,10 +14,14 @@ from .curl import *
 #######################################
 
 def banner():
+    global BANNER
     print('\033c')
-    ascii_banner = "Fetching HackerNews API ...\n"
+    if BANNER:
+        ascii_banner = pyfiglet.figlet_format("Fetching HackerNews API ... \n")
+    else:
+        ascii_banner = "Fetching HackerNews API ...\n"
     print(ascii_banner)
-
+    
 
 def show_menu():
     global READS_SIZE, PAGE_SIZE
