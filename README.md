@@ -10,3 +10,5 @@
      n where n is the number of the article to open on browser (set by $BROWSER env var)
      &n for hackernews comment section on browser
 ````
+<img src="imgs/startup.jpg"></img>
+<img src="imgs/news.jpg"></img>
