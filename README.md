@@ -1,6 +1,4 @@
 # hackernewscli
-hackernews in the cli
-
 ## Usage
 ````
 :: Edit src/hackernewscli/configs.py, you can use '$stty -a' to set up rows
