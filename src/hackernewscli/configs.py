@@ -9,9 +9,14 @@ except:
 
 
 HTTP_SUCCESS = 200
-TOP_NEWS = "/tmp/hackernewscli/hackernewscli_cache.txt"
+CACHE_DIR="~/.cache/hackernewscli"
+TOP_NEWS = f"{CACHE_DIR}/cache.txt"
 READS_SIZE = 80
 PAGE_SIZE = 4
+
+# setup cache
+os.system(f"test -e {TOP_NEWS} || mkdir -p {CACHE_DIR}")
+
 # Web
 try:
     BROWSER = os.environ['BROWSER']
