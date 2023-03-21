@@ -9,7 +9,7 @@ except:
 
 
 HTTP_SUCCESS = 200
-CACHE_DIR="~/.cache/hackernewscli"
+CACHE_DIR = f"{os.environ['HOME']}/.cache/hackernewscli"
 TOP_NEWS = f"{CACHE_DIR}/cache.txt"
 READS_SIZE = 80
 PAGE_SIZE = 4
