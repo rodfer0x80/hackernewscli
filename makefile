@@ -1,6 +1,6 @@
 .PHONY: run
 run:
-	scripts/run.py
+	 scripts/run.sh
 
 .PHONY: clean
 clean:

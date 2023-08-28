@@ -1,2 +1,2 @@
 #!/bin/sh
-rm -rf ./src/venv ./src/__pycache__ ./src/hackernewscli/__pycache__
+rm -rf ./venv ./src/__pycache__ ./src/*/__pycache__ ./debug.log
