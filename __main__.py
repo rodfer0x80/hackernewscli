@@ -57,7 +57,7 @@ class Cache:
                 sys.stderr.write(f"[!] Error writing cache: {e}\n")
 
 class Scraper:
-    def __init__(self, threads=4, http_success_code=200, data_size=1) -> None:
+    def __init__(self, threads=4, http_success_code=200, data_size=80) -> None:
         self.threads = threads
         self.http_success_code = http_success_code
         self.data_size = data_size   
@@ -133,7 +133,7 @@ class Scraper:
                 results.append(read)
 
 class Reader:
-    def __init__(self, reads_size=30, page_size=10, data_unit_size=5):
+    def __init__(self, reads_size=80, page_size=10, data_unit_size=5):
         self.reads_size = reads_size
         self.page_size = page_size
         self.data_unit_size = data_unit_size
@@ -182,11 +182,9 @@ class Reader:
             return data, handle
         # Copy post link to clipboard
         elif read[0] == "&":
-            print("HERE")
             try:
                 comment = int(read[1:])
-                element = -1
-                if self.copy_to_clipboard(data, comment, element) != 0:
+                if self.copy_to_clipboard(data, comment, "&") != 0:
                     sys.stderr.write("[!] Read input out of bounds for data size\n")
                     _ = int("IndexOutOfRange")
             except ValueError:
@@ -230,8 +228,7 @@ class Reader:
         else:
             try:
                 read = int(read)
-                element = -2
-                if self.copy_to_clipboard(data, read, element) != 0:
+                if self.copy_to_clipboard(data, read) != 0:
                     sys.stderr.write("[!] Read input out of bounds for data size\n")
                     _ = int("IndexOutOfRange")
             except ValueError:
@@ -239,19 +236,25 @@ class Reader:
         return data, handle
     
 
-    def copy_to_clipboard(self, data, index, element):
+    def copy_to_clipboard(self, data, index, mode=""):
         if index != 0:
-            index = index * self.data_unit_size + element
-            if index > self.reads_size:
-                return 1
+            if mode == "&":
+                index = index * self.data_unit_size - 1
+            else:
+                index = index * self.data_unit_size - 2
+            if index > self.reads_size*self.data_unit_size:
+                return 2
             link = data[index]
             _, link = link.split(": ")
+            os.system(f"echo {index} {data[index]} >> ./debug.log")
             cmd = f"echo {link} | xclip -selection clipboard"
             try:
                 os.system(cmd)
+                return 0
             except:
                 sys.stderr.write("[!] Error calling subprocess\n")
-        return 0
+                return 3
+        return 1
 
     def build_feed(self, data, handle):
         feed = '\033c'
@@ -281,4 +284,4 @@ class Reader:
 
 
 if __name__ == "__main__":
-    Reader(reads_size=30, page_size=10, data_unit_size=5)()
+    Reader(reads_size=80, page_size=10, data_unit_size=5)()
