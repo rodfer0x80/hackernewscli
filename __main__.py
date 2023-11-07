@@ -2,7 +2,8 @@
 
 import os
 import datetime
-import requests
+import urllib.request
+import json
 import threading
 import sys
 import time
@@ -70,10 +71,10 @@ class Scraper:
         
         res, err = self.get_call("https://hacker-news.firebaseio.com/v0/topstories.json")
         if err:
-            sys.stderr.write(res)
+            sys.stderr.write(err)
             return []
 
-        read_ids = res.json()[:self.data_size]
+        read_ids = res[:self.data_size]
         reads = []
 
         threads = []
@@ -106,13 +107,13 @@ class Scraper:
 
     def get_call(self, url):
         try:
-            res = requests.get(url)
-        except Exception as e:
-            return None, f"[!] Connection problem, can't reach server -- {e}"
-
-        if res.status_code != self.http_success_code:
-            return None, f"[x] Response status code: {res.status_code}"
-
+            con = urllib.request.urlopen(url)
+            res = json.load(con)
+            con.close()
+        except urllib.error.URLError as e:
+                return "", f"[!] Connection problem, can't reach server -- {e}"
+        except json.JSONDecodeError as e:
+                return "", f"[!] Error decoding json -- {e}"
         return res, None
     
     def fetch_and_process(self, read_id, results, results_lock):
@@ -120,7 +121,7 @@ class Scraper:
         res, err = self.get_call(url)
         
         if not err:
-            res_dict = res.json()
+            res_dict = res
             link = res_dict.get('url', "<no_link>")
             read = {
                 'title': res_dict['title'],
@@ -174,7 +175,7 @@ class Reader:
             print("Type 'help' or 'h' to see the help menu")
             time.sleep(1)
         # Quit program
-        if read == "quit" or read == "q":
+        if read == "quit" or read == "q" or read == "0":
             print("[*] Gracefully quitting ...")
             sys.exit(0)
         elif len(read) == 0:
@@ -284,4 +285,4 @@ class Reader:
 
 
 if __name__ == "__main__":
-    Reader(reads_size=80, page_size=10, data_unit_size=5)()
+    Reader(reads_size=80, page_size=5, data_unit_size=5)()
