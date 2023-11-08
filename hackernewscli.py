@@ -12,7 +12,12 @@ class Cache:
     def __init__(self, cache_file=None):
         self.cache_timout_seconds = 30 * 60
 
-        self.cache_dir = f"{os.environ['HOME']}/.cache/{__file__.split('/')[-1][:-3]}" # ~/.cache/hackernewscli
+        # ~/.cache/hackernewscli
+        self.cache_dir = os.getenv("XDG_HOME_CACHE")
+        if self.cache_dir == "":
+            self.cache_dir = os.expanduser("~/.cache")
+        self.cache_dir = os.path.join(self.cache_dir,"hackernews_cli")
+        
         if not os.path.exists(self.cache_dir):
             os.makedirs(self.cache_dir, mode=0o700, exist_ok=True)
         
